@@ -1,63 +1,53 @@
-// ------------------------------
-// Manejo básico de navegación
-// ------------------------------
+// -----------------------------
+// Manejo del Login
+// -----------------------------
+
 document.addEventListener("DOMContentLoaded", () => {
-    const navButtons = document.querySelectorAll("[data-nav]");
-    navButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const target = btn.getAttribute("data-nav");
-            window.location.href = target + ".html";
-        });
-    });
-});
+  const loginForm = document.getElementById("loginForm");
 
-// ------------------------------
-// Inicio de sesión simple (usuario + contraseña)
-// * Conectarás esto a Firebase después *
-// ------------------------------
-function loginUser() {
-    const user = document.getElementById("userInput").value.trim();
-    const pass = document.getElementById("passwordInput").value.trim();
+  if (loginForm) {
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
 
-    if (!user || !pass) {
-        alert("Por favor ingresa usuario y contraseña.");
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      // Validación simple (tú luego la conectas con Firebase)
+      if (username === "" || password === "") {
+        alert("Por favor llena todos los campos.");
         return;
-    }
+      }
 
-    // Temporal — esto lo vas a reemplazar con Firebase Auth
-    const tempUsers = {
-        "admin": "1234",
-        "moderador": "abcd",
-        "staff": "0000"
-    };
+      // Guardar usuario en sessionStorage
+      sessionStorage.setItem("loggedUser", username);
 
-    if (tempUsers[user] && tempUsers[user] === pass) {
-        localStorage.setItem("panelUser", user);
-        window.location.href = "dashboard.html";
-    } else {
-        alert("Credenciales incorrectas.");
-    }
-}
+      // Ir al dashboard
+      window.location.href = "dashboard.html";
+    });
+  }
 
-// ------------------------------
-// Cerrar sesión
-// ------------------------------
-function logout() {
-    localStorage.removeItem("panelUser");
-    window.location.href = "index.html";
-}
+  // -----------------------------
+  // Botón cerrar sesión
+  // -----------------------------
+  const logoutBtn = document.getElementById("logoutBtn");
 
-// ------------------------------
-// Verificación al cargar páginas internas
-// ------------------------------
-function checkLogin() {
-    const user = localStorage.getItem("panelUser");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      sessionStorage.removeItem("loggedUser");
+      window.location.href = "index.html";
+    });
+  }
+
+  // -----------------------------
+  // Protección de páginas internas
+  // -----------------------------
+  const protectedPages = ["dashboard.html", "admin.html", "registros.html", "apelaciones.html"];
+
+  if (protectedPages.some(page => window.location.href.includes(page))) {
+    const user = sessionStorage.getItem("loggedUser");
+
     if (!user) {
-        window.location.href = "index.html";
+      window.location.href = "index.html";
     }
-}
-
-// Llamarlo en cada página interna:
-try {
-    checkLogin();
-} catch (err) {}
+  }
+});
