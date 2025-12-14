@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel - Dashboard</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Staff Panel</h2>
+        <ul>
+            <li class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</li>
+            <li onclick="location.href='registros.html'"><i class="fa-solid fa-list"></i> Registros</li>
+            <li onclick="location.href='apelaciones.html'"><i class="fa-solid fa-gavel"></i> Apelaciones</li>
+            <li onclick="location.href='admin.html'"><i class="fa-solid fa-user-gear"></i> Administración</li>
+        </ul>
+
+        <button class="logout-btn" onclick="logout()">
+            <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+        </button>
+    </div>
+
+    <div class="content">
+        <h1>Dashboard</h1>
+        <p>Bienvenido al panel del staff. Aquí podrás ver estadísticas generales.</p>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Registros Totales</h3>
+                <p id="totalRegistros">—</p>
+            </div>
+
+            <div class="card">
+                <h3>Apelaciones Pendientes</h3>
+                <p id="apelacionesPendientes">—</p>
+            </div>
+
+            <div class="card">
+                <h3>Usuarios Activos</h3>
+                <p id="usuariosActivos">—</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="firebase.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
