@@ -1,241 +1,211 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Staff Panel</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-/* ============================
-      ESTILOS GENERALES
-============================ */
-body {
-    margin: 0;
-    background: #111;
-    font-family: Arial, sans-serif;
-    color: #fff;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Panel PRO</title>
 
-/* TOPBAR */
-.topbar {
-    width: 100%;
-    background: #0A84FF;
-    padding: 12px 20px;
-    font-size: 20px;
-    font-weight: bold;
-}
+    <style>
+        /* ==============================
+           ESTILO GLOBAL
+        =============================== */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #0d0f12;
+            color: white;
+        }
 
-/* SIDEBAR */
-.sidebar {
-    width: 240px;
-    position: fixed;
-    top: 50px;
-    bottom: 0;
-    left: 0;
-    background: #1c1c1c;
-    padding-top: 20px;
-}
+        /* Topbar Glass */
+        .topbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 65px;
+            backdrop-filter: blur(10px);
+            background: rgba(20, 25, 32, 0.55);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.45);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 10;
+        }
 
-.sidebar button {
-    width: 100%;
-    padding: 12px;
-    background: none;
-    border: none;
-    text-align: left;
-    padding-left: 20px;
-    font-size: 16px;
-    color: #aaa;
-    cursor: pointer;
-}
+        .topbar h1 {
+            font-size: 20px;
+            margin: 0;
+            color: #60a5fa;
+        }
 
-.sidebar button:hover {
-    background: #0A84FF33;
-    color: #fff;
-}
+        /* Lado derecho */
+        .topbar .user-box {
+            margin-left: auto;
+            font-size: 14px;
+            opacity: 0.9;
+        }
 
-/* CONTENIDO */
-.content {
-    margin-left: 260px;
-    margin-top: 60px;
-    padding: 20px;
-}
+        /* Layout */
+        .container {
+            padding-top: 80px;
+            width: 90%;
+            margin: auto;
+        }
 
-.tab {
-    display: none;
-}
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
 
-/* Títulos */
-h2 {
-    border-left: 4px solid #0A84FF;
-    padding-left: 10px;
-}
+        .tab {
+            padding: 10px 18px;
+            background: #111317;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid #1f242d;
+            transition: .2s;
+        }
 
-input, select, textarea {
-    background: #222;
-    border: 1px solid #444;
-    padding: 8px;
-    color: #fff;
-    border-radius: 4px;
-    width: 250px;
-    margin-bottom: 10px;
-}
+        .tab:hover {
+            background: #1a1d22;
+            border-color: #3b82f6;
+            box-shadow: 0 0 10px #3b82f6;
+        }
 
-button.action {
-    background: #0A84FF;
-    border: none;
-    padding: 10px 14px;
-    border-radius: 4px;
-    color: #fff;
-    cursor: pointer;
-}
-button.action:hover {
-    background: #0066CC;
-}
-</style>
+        .tab.active {
+            background: #3b82f6;
+            color: #fff;
+            border-color: #60a5fa;
+        }
+
+        /* Contenido */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .card {
+            background: #111317;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #1f242d;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #60a5fa;
+            margin-top: 0;
+        }
+
+    </style>
+
+    <script>
+        // ============================
+        // SISTEMA DE PESTAÑAS
+        // ============================
+        function cambiarTab(nombre) {
+            document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+            document.getElementById(nombre).classList.add("active");
+
+            document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+            document.getElementById("btn-" + nombre).classList.add("active");
+        }
+    </script>
 </head>
+
 <body>
 
-<!-- ========================= TOPBAR ========================= -->
-<div class="topbar">Staff Panel — Conectado</div>
-
-<!-- ========================= SIDEBAR ========================= -->
-<div class="sidebar">
-    <button onclick="mostrarTab('dashboard')">📊 Dashboard</button>
-    <button onclick="mostrarTab('admin')">🛠 Admin</button>
-    <button onclick="mostrarTab('registros')">📚 Registros</button>
-    <button onclick="mostrarTab('apelaciones')">📨 Apelaciones</button>
-    <button onclick="mostrarTab('staff')">👥 Staff / Servicios</button>
-    <button onclick="mostrarTab('config')">⚙ Configuración</button>
-</div>
-
-<!-- ========================= CONTENIDO ========================= -->
-<div class="content">
-
-    <!-- DASHBOARD -->
-    <div id="dashboard" class="tab">
-        <h2>Dashboard</h2>
-        <p>Estadísticas, últimos movimientos y logs del sistema.</p>
+    <!-- ============================
+         TOPBAR GLASS PREMIUM
+    ============================ -->
+    <div class="topbar">
+        <h1>Panel de Staff — PRO</h1>
+        <div class="user-box">
+            Conectado ✓
+        </div>
     </div>
 
-    <!-- ADMIN -->
-    <div id="admin" class="tab">
-        <h2>Administración</h2>
-        <p>Herramientas para administradores.</p>
+    <div class="container">
+
+        <!-- ============================
+             PESTAÑAS
+        ============================ -->
+        <div class="tabs">
+            <div class="tab active" id="btn-dashboard" onclick="cambiarTab('dashboard')">Dashboard</div>
+            <div class="tab" id="btn-admin" onclick="cambiarTab('admin')">Admin</div>
+            <div class="tab" id="btn-registros" onclick="cambiarTab('registros')">Registros</div>
+            <div class="tab" id="btn-apelaciones" onclick="cambiarTab('apelaciones')">Apelaciones</div>
+            <div class="tab" id="btn-staff" onclick="cambiarTab('staff')">Staff / Servicios</div>
+            <div class="tab" id="btn-config" onclick="cambiarTab('config')">Configuración</div>
+        </div>
+
+        <!-- ============================
+             DASHBOARD
+        ============================ -->
+        <div class="section active" id="dashboard">
+            <div class="card">
+                <h2>Dashboard</h2>
+                <p>Cronómetro, calculadora, estado de servicio, staff activos.</p>
+            </div>
+        </div>
+
+        <!-- ============================
+             ADMIN
+        ============================ -->
+        <div class="section" id="admin">
+            <div class="card">
+                <h2>Panel Administrativo</h2>
+                <p>Expulsar, banear, crear usuarios, asignar rangos, administrador de servicios.</p>
+            </div>
+        </div>
+
+        <!-- ============================
+             REGISTROS DE EXPEDIENTES
+        ============================ -->
+        <div class="section" id="registros">
+            <div class="card"><h2>Kicks</h2></div>
+            <div class="card"><h2>Bans Discord</h2></div>
+            <div class="card"><h2>Bans Roblox</h2></div>
+            <div class="card"><h2>Warns</h2></div>
+        </div>
+
+        <!-- ============================
+             APELACIONES
+        ============================ -->
+        <div class="section" id="apelaciones">
+            <div class="card"><h2>Discord Pendientes</h2></div>
+            <div class="card"><h2>Discord Aprobados</h2></div>
+            <div class="card"><h2>Discord Denegados</h2></div>
+
+            <div class="card"><h2>Roblox Pendientes</h2></div>
+            <div class="card"><h2>Roblox Aprobados</h2></div>
+            <div class="card"><h2>Roblox Denegados</h2></div>
+        </div>
+
+        <!-- ============================
+             STAFF / SERVICIOS
+        ============================ -->
+        <div class="section" id="staff">
+            <div class="card"><h2>En servicio</h2></div>
+            <div class="card"><h2>Fuera de servicio</h2></div>
+            <div class="card"><h2>Pausa</h2></div>
+            <div class="card"><h2>Lista de staff activo</h2></div>
+        </div>
+
+        <!-- ============================
+             CONFIGURACIÓN
+        ============================ -->
+        <div class="section" id="config">
+            <div class="card"><h2>Gestión de roles</h2></div>
+            <div class="card"><h2>Historial de logs</h2></div>
+            <div class="card"><h2>Preferencias del panel</h2></div>
+        </div>
+
     </div>
-
-    <!-- REGISTROS -->
-    <div id="registros" class="tab">
-        <h2>Registros</h2>
-        <button class="action" onclick="cargarRegistros()">Cargar registros</button>
-        <pre id="outRegistros"></pre>
-    </div>
-
-    <!-- APELACIONES -->
-    <div id="apelaciones" class="tab">
-        <h2>Apelaciones</h2>
-        <button class="action" onclick="cargarApelaciones()">Cargar apelaciones</button>
-        <pre id="outApelaciones"></pre>
-    </div>
-
-    <!-- STAFF / SERVICIOS -->
-    <div id="staff" class="tab">
-        <h2>Staff / Servicios</h2>
-        <button class="action" onclick="cargarStaff()">Cargar Staff</button>
-        <pre id="outStaff"></pre>
-    </div>
-
-    <!-- CONFIGURACIÓN -->
-    <div id="config" class="tab">
-        <h2>Configuración general</h2>
-        <button class="action" onclick="logAccion('sistema','mod_config','Prueba config')">
-            Probar log
-        </button>
-        <p>Log enviado.</p>
-    </div>
-
-</div>
-
-<!-- ========================= SCRIPTS FIREBASE ========================= -->
-<script type="module">
-/* ==============================================
-🔥 INICIALIZACIÓN FIREBASE v10+
-================================================ */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, push, set, get, update, remove }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-/* COLOCA AQUÍ TU CONFIG */
-const firebaseConfig = {
-    apiKey: "TU_API",
-    authDomain: "TU_DOMAIN",
-    databaseURL: "TU_DB",
-    projectId: "TU_ID",
-    storageBucket: "TU_BUCKET",
-    messagingSenderId: "TU_SENDER_ID",
-    appId: "TU_APP"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-/* ==============================================
-🔥 FUNCIONES UNIVERSALES
-================================================ */
-function guardarRegistro(ruta, datos) {
-    const nuevo = push(ref(db, ruta));
-    return set(nuevo, { ...datos, timestamp: Date.now() });
-}
-
-async function obtenerRegistros(ruta) {
-    const snap = await get(ref(db, ruta));
-    return snap.exists() ? snap.val() : {};
-}
-
-function actualizarRegistro(ruta, id, datos) {
-    return update(ref(db, `${ruta}/${id}`), datos);
-}
-
-function eliminarRegistro(ruta, id) {
-    return remove(ref(db, `${ruta}/${id}`));
-}
-
-/* LOGS */
-function logAccion(usuario, accion, detalle = "") {
-    const log = push(ref(db, "logs"));
-    return set(log, {
-        usuario, accion, detalle,
-        fecha: new Date().toLocaleString(),
-        timestamp: Date.now()
-    });
-}
-
-/* ==============================================
-🔥 CARGAS DE PESTAÑAS
-================================================ */
-async function cargarRegistros() {
-    const data = await obtenerRegistros("registros");
-    document.getElementById("outRegistros").textContent = JSON.stringify(data, null, 2);
-}
-
-async function cargarApelaciones() {
-    const data = await obtenerRegistros("apelaciones");
-    document.getElementById("outApelaciones").textContent = JSON.stringify(data, null, 2);
-}
-
-async function cargarStaff() {
-    const data = await obtenerRegistros("staff");
-    document.getElementById("outStaff").textContent = JSON.stringify(data, null, 2);
-}
-
-/* ==============================================
-🔥 CAMBIO DE TABS
-================================================ */
-function mostrarTab(id) {
-    document.querySelectorAll(".tab").forEach(t => t.style.display = "none");
-    document.getElementById(id).style.display = "block";
-}
-mostrarTab("dashboard"); // default
-
-</script>
 
 </body>
 </html>
