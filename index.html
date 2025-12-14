@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Staff Ops - Login</title>
-    <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Ops - Iniciar Sesión</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
     <div class="login-container">
-        <h2>Staff Ops Panel</h2>
+        <h2>Panel de Staff</h2>
 
         <div class="input-group">
             <label>Usuario</label>
-            <input type="text" id="username" placeholder="Usuario">
+            <input id="username" type="text" placeholder="Escribe tu usuario">
         </div>
 
         <div class="input-group">
             <label>Contraseña</label>
-            <input type="password" id="password" placeholder="Contraseña">
+            <input id="password" type="password" placeholder="Escribe tu contraseña">
         </div>
 
-        <button id="loginBtn">Iniciar sesión</button>
+        <button id="loginBtn">Entrar</button>
 
-        <p id="errorMsg" class="error"></p>
+        <p id="loginError" class="error"></p>
     </div>
 
     <script type="module" src="firebase.js"></script>
-    <script type="module" src="scripts.js"></script>
+    <script src="scripts.js"></script>
+
 </body>
 </html>
