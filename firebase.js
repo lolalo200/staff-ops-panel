@@ -1,65 +1,69 @@
-// ==============================
-// Firebase – Configuración y Base de Datos
-// ==============================
+// ============================================
+// Firebase V9 - Configuración y Base de Datos
+// ============================================
 
-// 👉 Reemplaza estas keys con las de TU proyecto Firebase
+import { 
+    initializeApp 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import { 
+    getDatabase, ref, push, set, get, update, remove, child 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+// Tu configuración de Firebase
 const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "TU_AUTH_DOMAIN",
-    databaseURL: "TU_DATABASE_URL",
-    projectId: "TU_PROJECT_ID",
-    storageBucket: "TU_STORAGE_BUCKET",
-    messagingSenderId: "TU_SENDER_ID",
-    appId: "TU_APP_ID"
+    apiKey: "AIzaSyCt2BKa_cLsMQWOCbkvRnqPM5a_EMmDxBA",
+    authDomain: "staff-ops-panel.firebaseapp.com",
+    projectId: "staff-ops-panel",
+    storageBucket: "staff-ops-panel.firebasestorage.app",
+    messagingSenderId: "540603726894",
+    appId: "1:540603726894:web:10b3ae26a46702c7bdb3bf"
 };
 
 // Inicializar Firebase
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+export const db = getDatabase(app);
 
-// Inicializar Base de Datos
-const db = firebase.database();
-
-// ==============================
+// =====================================
 // FUNCIONES UNIVERSALES
-// ==============================
+// =====================================
 
-// Guardar un registro en una colección
+// Guardar un registro
 export function guardarRegistro(ruta, datos) {
-    const nuevo = db.ref(ruta).push();
-    return nuevo.set({
+    const nuevo = push(ref(db, ruta));
+    return set(nuevo, {
         ...datos,
         timestamp: Date.now()
     });
 }
 
-// Obtener todos los registros de una colección
+// Obtener registros
 export async function obtenerRegistros(ruta) {
-    const snapshot = await db.ref(ruta).once("value");
-    return snapshot.val() || {};
+    const snapshot = await get(ref(db, ruta));
+    return snapshot.exists() ? snapshot.val() : {};
 }
 
-// Actualizar un registro
+// Actualizar registro
 export function actualizarRegistro(ruta, id, datos) {
-    return db.ref(`${ruta}/${id}`).update(datos);
+    return update(ref(db, `${ruta}/${id}`), datos);
 }
 
-// Eliminar un registro
+// Eliminar registro
 export function eliminarRegistro(ruta, id) {
-    return db.ref(`${ruta}/${id}`).remove();
+    return remove(ref(db, `${ruta}/${id}`));
 }
 
-// ==============================
+// =====================================
 // SISTEMA DE LOGS
-// ==============================
-
+// =====================================
 export function logAccion(usuario, accion, detalle = "") {
-    const log = {
+    const nuevoLog = push(ref(db, "logs"));
+    return set(nuevoLog, {
         usuario,
         accion,
         detalle,
         fecha: new Date().toLocaleString(),
         timestamp: Date.now()
-    };
-
-    db.ref("logs").push(log);
+    });
 }
+
