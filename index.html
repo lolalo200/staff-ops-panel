@@ -3,110 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Panel PRO</title>
+    <title>STAFF OPS PANEL — SYSTEM</title>
 
     <style>
-        /* ==============================
-           ESTILO GLOBAL
-        =============================== */
+        /* ======================================================
+           ESTILO GLOBAL — FGR SYSTEM STYLE (OSCuro + acentos azules)
+        ======================================================= */
         body {
             margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: #0d0f12;
-            color: white;
+            background: #0a0c0e;
+            font-family: "Segoe UI", sans-serif;
+            color: #e5e7eb;
         }
 
-        /* Topbar Glass */
+        /* ======================================================
+           TOPBAR ESTILO SYSTEM
+        ======================================================= */
         .topbar {
+            width: 100%;
+            height: 85px;
+            background: #0f1115;
+            border-bottom: 2px solid #3b82f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             position: fixed;
             top: 0;
-            width: 100%;
-            height: 65px;
-            backdrop-filter: blur(10px);
-            background: rgba(20, 25, 32, 0.55);
-            border-bottom: 1px solid rgba(59, 130, 246, 0.45);
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
+            left: 0;
             z-index: 10;
         }
 
         .topbar h1 {
-            font-size: 20px;
-            margin: 0;
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: 1px;
             color: #60a5fa;
         }
 
-        /* Lado derecho */
-        .topbar .user-box {
-            margin-left: auto;
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        /* Layout */
+        /* ======================================================
+           LAYOUT GENERAL
+        ======================================================= */
         .container {
-            padding-top: 80px;
             width: 90%;
             margin: auto;
+            padding-top: 110px;
         }
 
-        /* Tabs */
+        /* ======================================================
+           PESTAÑAS — NAVIGATION
+        ======================================================= */
         .tabs {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 20px;
         }
 
         .tab {
             padding: 10px 18px;
             background: #111317;
+            border: 1px solid #1f242d;
             border-radius: 8px;
             cursor: pointer;
-            border: 1px solid #1f242d;
+            color: #cbd5e1;
             transition: .2s;
         }
 
         .tab:hover {
             background: #1a1d22;
             border-color: #3b82f6;
-            box-shadow: 0 0 10px #3b82f6;
+            box-shadow: 0 0 12px rgba(59,130,246,0.6);
         }
 
         .tab.active {
             background: #3b82f6;
-            color: #fff;
             border-color: #60a5fa;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 0 15px rgba(59,130,246,0.8);
         }
 
-        /* Contenido */
+        /* ======================================================
+           SECCIONES
+        ======================================================= */
         .section {
             display: none;
         }
-
         .section.active {
             display: block;
         }
 
+        /* ======================================================
+           TARJETAS — CARDS
+        ======================================================= */
         .card {
             background: #111317;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 12px;
             border: 1px solid #1f242d;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
+            transition: .2s;
+        }
+
+        .card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 0 12px rgba(59,130,246,0.3);
         }
 
         .card h2 {
+            margin: 0 0 8px 0;
             color: #60a5fa;
-            margin-top: 0;
         }
-
     </style>
 
     <script>
-        // ============================
-        // SISTEMA DE PESTAÑAS
-        // ============================
+        /* ======================================================
+           SISTEMA DE TABS
+        ======================================================= */
         function cambiarTab(nombre) {
             document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
             document.getElementById(nombre).classList.add("active");
@@ -115,25 +127,22 @@
             document.getElementById("btn-" + nombre).classList.add("active");
         }
     </script>
-</head>
 
+</head>
 <body>
 
-    <!-- ============================
-         TOPBAR GLASS PREMIUM
-    ============================ -->
+    <!-- ======================================================
+         TOPBAR SYSTEM
+    ======================================================= -->
     <div class="topbar">
-        <h1>Panel de Staff — PRO</h1>
-        <div class="user-box">
-            Conectado ✓
-        </div>
+        <h1>STAFF OPS PANEL — SYSTEM</h1>
     </div>
 
     <div class="container">
 
-        <!-- ============================
-             PESTAÑAS
-        ============================ -->
+        <!-- ======================================================
+             PESTAÑAS PRINCIPALES
+        ======================================================= -->
         <div class="tabs">
             <div class="tab active" id="btn-dashboard" onclick="cambiarTab('dashboard')">Dashboard</div>
             <div class="tab" id="btn-admin" onclick="cambiarTab('admin')">Admin</div>
@@ -143,62 +152,62 @@
             <div class="tab" id="btn-config" onclick="cambiarTab('config')">Configuración</div>
         </div>
 
-        <!-- ============================
-             DASHBOARD
-        ============================ -->
+        <!-- ======================================================
+             SECCIÓN: DASHBOARD
+        ======================================================= -->
         <div class="section active" id="dashboard">
             <div class="card">
                 <h2>Dashboard</h2>
-                <p>Cronómetro, calculadora, estado de servicio, staff activos.</p>
+                <p>Cronómetro, calculadora, estado del sistema, staff activos.</p>
             </div>
         </div>
 
-        <!-- ============================
-             ADMIN
-        ============================ -->
+        <!-- ======================================================
+             SECCIÓN: ADMIN
+        ======================================================= -->
         <div class="section" id="admin">
-            <div class="card">
-                <h2>Panel Administrativo</h2>
-                <p>Expulsar, banear, crear usuarios, asignar rangos, administrador de servicios.</p>
-            </div>
+            <div class="card"><h2>Administración general</h2><p>Herramientas para personal administrativo.</p></div>
+            <div class="card"><h2>Gestión de usuarios</h2></div>
+            <div class="card"><h2>Rangos</h2></div>
+            <div class="card"><h2>Servicios</h2></div>
         </div>
 
-        <!-- ============================
-             REGISTROS DE EXPEDIENTES
-        ============================ -->
+        <!-- ======================================================
+             SECCIÓN: REGISTROS
+        ======================================================= -->
         <div class="section" id="registros">
             <div class="card"><h2>Kicks</h2></div>
-            <div class="card"><h2>Bans Discord</h2></div>
-            <div class="card"><h2>Bans Roblox</h2></div>
+            <div class="card"><h2>Baneos Discord</h2></div>
+            <div class="card"><h2>Baneos Roblox</h2></div>
             <div class="card"><h2>Warns</h2></div>
         </div>
 
-        <!-- ============================
-             APELACIONES
-        ============================ -->
+        <!-- ======================================================
+             SECCIÓN: APELACIONES
+        ======================================================= -->
         <div class="section" id="apelaciones">
             <div class="card"><h2>Discord Pendientes</h2></div>
-            <div class="card"><h2>Discord Aprobados</h2></div>
-            <div class="card"><h2>Discord Denegados</h2></div>
+            <div class="card"><h2>Discord Aprobadas</h2></div>
+            <div class="card"><h2>Discord Denegadas</h2></div>
 
             <div class="card"><h2>Roblox Pendientes</h2></div>
-            <div class="card"><h2>Roblox Aprobados</h2></div>
-            <div class="card"><h2>Roblox Denegados</h2></div>
+            <div class="card"><h2>Roblox Aprobadas</h2></div>
+            <div class="card"><h2>Roblox Denegadas</h2></div>
         </div>
 
-        <!-- ============================
-             STAFF / SERVICIOS
-        ============================ -->
+        <!-- ======================================================
+             SECCIÓN: STAFF / SERVICIOS
+        ======================================================= -->
         <div class="section" id="staff">
-            <div class="card"><h2>En servicio</h2></div>
-            <div class="card"><h2>Fuera de servicio</h2></div>
+            <div class="card"><h2>En Servicio</h2></div>
+            <div class="card"><h2>Fuera de Servicio</h2></div>
             <div class="card"><h2>Pausa</h2></div>
-            <div class="card"><h2>Lista de staff activo</h2></div>
+            <div class="card"><h2>Staff Activo</h2></div>
         </div>
 
-        <!-- ============================
-             CONFIGURACIÓN
-        ============================ -->
+        <!-- ======================================================
+             SECCIÓN: CONFIGURACIÓN
+        ======================================================= -->
         <div class="section" id="config">
             <div class="card"><h2>Gestión de roles</h2></div>
             <div class="card"><h2>Historial de logs</h2></div>
