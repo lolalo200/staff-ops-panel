@@ -1,34 +1,241 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Ops - Iniciar Sesión</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+<meta charset="UTF-8">
+<title>Staff Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* ============================
+      ESTILOS GENERALES
+============================ */
+body {
+    margin: 0;
+    background: #111;
+    font-family: Arial, sans-serif;
+    color: #fff;
+}
 
+/* TOPBAR */
+.topbar {
+    width: 100%;
+    background: #0A84FF;
+    padding: 12px 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 240px;
+    position: fixed;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+    background: #1c1c1c;
+    padding-top: 20px;
+}
+
+.sidebar button {
+    width: 100%;
+    padding: 12px;
+    background: none;
+    border: none;
+    text-align: left;
+    padding-left: 20px;
+    font-size: 16px;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background: #0A84FF33;
+    color: #fff;
+}
+
+/* CONTENIDO */
+.content {
+    margin-left: 260px;
+    margin-top: 60px;
+    padding: 20px;
+}
+
+.tab {
+    display: none;
+}
+
+/* Títulos */
+h2 {
+    border-left: 4px solid #0A84FF;
+    padding-left: 10px;
+}
+
+input, select, textarea {
+    background: #222;
+    border: 1px solid #444;
+    padding: 8px;
+    color: #fff;
+    border-radius: 4px;
+    width: 250px;
+    margin-bottom: 10px;
+}
+
+button.action {
+    background: #0A84FF;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+button.action:hover {
+    background: #0066CC;
+}
+</style>
+</head>
 <body>
 
-    <div class="login-container">
-        <h2>Panel de Staff</h2>
+<!-- ========================= TOPBAR ========================= -->
+<div class="topbar">Staff Panel — Conectado</div>
 
-        <div class="input-group">
-            <label>Usuario</label>
-            <input id="username" type="text" placeholder="Escribe tu usuario">
-        </div>
+<!-- ========================= SIDEBAR ========================= -->
+<div class="sidebar">
+    <button onclick="mostrarTab('dashboard')">📊 Dashboard</button>
+    <button onclick="mostrarTab('admin')">🛠 Admin</button>
+    <button onclick="mostrarTab('registros')">📚 Registros</button>
+    <button onclick="mostrarTab('apelaciones')">📨 Apelaciones</button>
+    <button onclick="mostrarTab('staff')">👥 Staff / Servicios</button>
+    <button onclick="mostrarTab('config')">⚙ Configuración</button>
+</div>
 
-        <div class="input-group">
-            <label>Contraseña</label>
-            <input id="password" type="password" placeholder="Escribe tu contraseña">
-        </div>
+<!-- ========================= CONTENIDO ========================= -->
+<div class="content">
 
-        <button id="loginBtn">Entrar</button>
-
-        <p id="loginError" class="error"></p>
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="tab">
+        <h2>Dashboard</h2>
+        <p>Estadísticas, últimos movimientos y logs del sistema.</p>
     </div>
 
-    <script type="module" src="firebase.js"></script>
-    <script src="scripts.js"></script>
+    <!-- ADMIN -->
+    <div id="admin" class="tab">
+        <h2>Administración</h2>
+        <p>Herramientas para administradores.</p>
+    </div>
+
+    <!-- REGISTROS -->
+    <div id="registros" class="tab">
+        <h2>Registros</h2>
+        <button class="action" onclick="cargarRegistros()">Cargar registros</button>
+        <pre id="outRegistros"></pre>
+    </div>
+
+    <!-- APELACIONES -->
+    <div id="apelaciones" class="tab">
+        <h2>Apelaciones</h2>
+        <button class="action" onclick="cargarApelaciones()">Cargar apelaciones</button>
+        <pre id="outApelaciones"></pre>
+    </div>
+
+    <!-- STAFF / SERVICIOS -->
+    <div id="staff" class="tab">
+        <h2>Staff / Servicios</h2>
+        <button class="action" onclick="cargarStaff()">Cargar Staff</button>
+        <pre id="outStaff"></pre>
+    </div>
+
+    <!-- CONFIGURACIÓN -->
+    <div id="config" class="tab">
+        <h2>Configuración general</h2>
+        <button class="action" onclick="logAccion('sistema','mod_config','Prueba config')">
+            Probar log
+        </button>
+        <p>Log enviado.</p>
+    </div>
+
+</div>
+
+<!-- ========================= SCRIPTS FIREBASE ========================= -->
+<script type="module">
+/* ==============================================
+🔥 INICIALIZACIÓN FIREBASE v10+
+================================================ */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push, set, get, update, remove }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+/* COLOCA AQUÍ TU CONFIG */
+const firebaseConfig = {
+    apiKey: "TU_API",
+    authDomain: "TU_DOMAIN",
+    databaseURL: "TU_DB",
+    projectId: "TU_ID",
+    storageBucket: "TU_BUCKET",
+    messagingSenderId: "TU_SENDER_ID",
+    appId: "TU_APP"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+/* ==============================================
+🔥 FUNCIONES UNIVERSALES
+================================================ */
+function guardarRegistro(ruta, datos) {
+    const nuevo = push(ref(db, ruta));
+    return set(nuevo, { ...datos, timestamp: Date.now() });
+}
+
+async function obtenerRegistros(ruta) {
+    const snap = await get(ref(db, ruta));
+    return snap.exists() ? snap.val() : {};
+}
+
+function actualizarRegistro(ruta, id, datos) {
+    return update(ref(db, `${ruta}/${id}`), datos);
+}
+
+function eliminarRegistro(ruta, id) {
+    return remove(ref(db, `${ruta}/${id}`));
+}
+
+/* LOGS */
+function logAccion(usuario, accion, detalle = "") {
+    const log = push(ref(db, "logs"));
+    return set(log, {
+        usuario, accion, detalle,
+        fecha: new Date().toLocaleString(),
+        timestamp: Date.now()
+    });
+}
+
+/* ==============================================
+🔥 CARGAS DE PESTAÑAS
+================================================ */
+async function cargarRegistros() {
+    const data = await obtenerRegistros("registros");
+    document.getElementById("outRegistros").textContent = JSON.stringify(data, null, 2);
+}
+
+async function cargarApelaciones() {
+    const data = await obtenerRegistros("apelaciones");
+    document.getElementById("outApelaciones").textContent = JSON.stringify(data, null, 2);
+}
+
+async function cargarStaff() {
+    const data = await obtenerRegistros("staff");
+    document.getElementById("outStaff").textContent = JSON.stringify(data, null, 2);
+}
+
+/* ==============================================
+🔥 CAMBIO DE TABS
+================================================ */
+function mostrarTab(id) {
+    document.querySelectorAll(".tab").forEach(t => t.style.display = "none");
+    document.getElementById(id).style.display = "block";
+}
+mostrarTab("dashboard"); // default
+
+</script>
 
 </body>
 </html>
